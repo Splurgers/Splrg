@@ -10,9 +10,9 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreLogMonitorModule, useLogMonitor } from '@ngrx/store-log-monitor';
 
-import { AboutPage } from '../pages/about/about';
-import { ContactPage } from '../pages/contact/contact';
-import { HomePage } from '../pages/home/home';
+import { FeedPage } from '../pages/feed/feed';
+import { FormPage } from '../pages/form/form';
+import { ListPage } from '../pages/list/list';
 import { TabsPage } from '../pages/tabs/tabs';
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -23,9 +23,9 @@ import { dogs } from '../stores/dogs.store';
 @NgModule({
   declarations: [
     MyApp,
-    AboutPage,
-    ContactPage,
-    HomePage,
+    FeedPage,
+    FormPage,
+    ListPage,
     TabsPage
   ],
   imports: [
@@ -46,9 +46,9 @@ import { dogs } from '../stores/dogs.store';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    AboutPage,
-    ContactPage,
-    HomePage,
+    FeedPage,
+    FormPage,
+    ListPage,
     TabsPage
   ],
   providers: [

@@ -8,18 +8,18 @@ import { DogsService } from '../../services/dogs.service';
 
 
 @Component({
-  selector: 'page-home',
-  templateUrl: 'home.html',
+  selector: 'page-list',
+  templateUrl: 'list.html',
   providers: [DogsService]
 })
-export class HomePage {
+export class ListPage {
   dogs: Observable<Array<string>>;
 
-  constructor(public navCtrl: NavController, 
-              private dogsService: DogsService, 
+  constructor(public navCtrl: NavController,
+              private dogsService: DogsService,
               public toastCtrl: ToastController) {
     this.dogs = dogsService.dogs;
-    
+
     dogsService.loadItems();
   }
 
