@@ -1,13 +1,16 @@
 <ion-header>
   <ion-navbar>
-    <!-- TODO: change copy to 'Splurges' or something like that -->
-    <ion-title>List</ion-title>
+    <ion-title>D O G S</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  D O G S
-  <div *ngFor="let dog of dogs | async ">
-    <span (click)="delete(dog)">{{ dog }}</span>
-  </div>
+
+  <ion-card *ngFor="let dog of dogs | async ">
+
+    <ion-card-content (click)="showSplurgeCardActions()">
+      {{ dog }}
+    </ion-card-content>
+
+  </ion-card>
 </ion-content>
