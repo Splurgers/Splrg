@@ -16,13 +16,14 @@ import { DogsService } from '../../services/dogs.service';
 export class ListPage {
   dogs: Observable<Array<string>>;
 
-  constructor(public navCtrl: NavController, 
-              private dogsService: DogsService, 
+  constructor(public navCtrl: NavController,
+              private dogsService: DogsService,
               public toastCtrl: ToastController,
               public actionSheetCtrl: ActionSheetController) {
     this.dogs = dogsService.dogs;
-    
+
     dogsService.loadItems();
+    dogsService.loadSplurges();
   }
 
   showSplurgeCardActions(splurge) {
