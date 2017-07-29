@@ -8,11 +8,11 @@ import { DogsService } from '../../services/dogs.service';
 
 
 @Component({
-  selector: 'page-home',
+  selector: 'page-list',
   templateUrl: 'list.html',
   providers: [DogsService]
 })
-export class HomePage {
+export class ListPage {
   dogs: Observable<Array<string>>;
 
   constructor(public navCtrl: NavController,
