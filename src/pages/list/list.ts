@@ -9,17 +9,17 @@ import { DogsService } from '../../services/dogs.service';
 
 @Component({
   selector: 'page-home',
-  templateUrl: 'home.html',
+  templateUrl: 'list.html',
   providers: [DogsService]
 })
 export class HomePage {
   dogs: Observable<Array<string>>;
 
-  constructor(public navCtrl: NavController, 
-              private dogsService: DogsService, 
+  constructor(public navCtrl: NavController,
+              private dogsService: DogsService,
               public toastCtrl: ToastController) {
     this.dogs = dogsService.dogs;
-    
+
     dogsService.loadItems();
   }
 
