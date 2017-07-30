@@ -1,16 +1,46 @@
 <ion-header>
+
   <ion-navbar>
-    <ion-title>D O G S</ion-title>
+    <button ion-button icon-only menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-title>
+      S P L U R G E
+    </ion-title>
+
+    <ion-buttons end>
+      <button ion-button icon-only (click)="addSplurge()">
+        <ion-icon name="add-circle"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
+
 </ion-header>
 
 <ion-content padding>
 
-  <ion-card *ngFor="let dog of dogs | async">
+  <ion-card *ngFor="let SPLURGE of SPLURGES">
 
-    <ion-card-content (click)="showSplurgeCardActions(dog)">
-      {{ dog }}
-    </ion-card-content>
-
+      <ion-row style="height: 60px;" (click)="showSplurgeCardActions(SPLURGE)">
+        <ion-col>
+          <div style='position: absolute; top: -45px; left: 10px;'>
+            <div class="progress-pie-chart" (click)="useSplurge($event, SPLURGE)" [ngClass]="{'gt-50': SPLURGE.splurges_left / SPLURGE.number > .50}">
+              <div class="ppc-progress">
+                <div class="ppc-progress-fill" [style.transform]="'rotate('+ (SPLURGE.splurges_left / SPLURGE.number * 360) +'deg)'"></div>
+              </div>
+              <div class="ppc-percents">
+                <div class="pcc-percents-wrapper">
+                  <span>{{ SPLURGE.splurges_left }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ion-col>
+        <ion-col col-10 class='splurge-description'>
+          {{ SPLURGE.description }}
+        </ion-col>
+      </ion-row>
   </ion-card>
+  
 </ion-content>
