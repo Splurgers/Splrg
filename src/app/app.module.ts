@@ -19,6 +19,8 @@ import { LoginPage } from '../pages/login/login';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
+
+import { user } from '../stores/user.store';
 import { posts } from '../stores/posts.store';
 import { splurges } from '../stores/splurges.store';
 
@@ -37,7 +39,7 @@ import { splurges } from '../stores/splurges.store';
         HttpModule,
     ReactiveFormsModule,
     FormsModule,
-    StoreModule.provideStore({ posts, splurges}),
+    StoreModule.provideStore({ posts, splurges, user }),
     StoreDevtoolsModule.instrumentStore({
       monitor: useLogMonitor({
         visible: false,
