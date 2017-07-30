@@ -18,14 +18,16 @@ import { SPLURGE } from '../../models/splurge.model';
 export class ListPage {
   dogs: Observable<Array<string>>;
 
+
   constructor(public navCtrl: NavController, 
               private dogsService: DogsService,
               private splurgeService: SplurgeService,
               public toastCtrl: ToastController,
               public actionSheetCtrl: ActionSheetController) {
     this.dogs = dogsService.dogs;
-    
+
     dogsService.loadItems();
+    dogsService.loadSplurges();
   }
 
   showSplurgeCardActions(splurge: SPLURGE) {

@@ -7,6 +7,7 @@ import 'rxjs/add/operator/map';
 import { appState } from '../models/appState.model';
 
 const BASE_URL = 'https://dog.ceo/api/';
+const BASE_LB_URL = 'api/';
 const HEADER = { headers: new Headers({ 'Content-Type': 'application/json' }) };
 
 @Injectable()
@@ -22,6 +23,13 @@ export class DogsService {
       .map(res => res.json())
       .map(payload => ({ type: 'ADD_DOGS', payload }))
       .subscribe(action => this.store.dispatch(action));
+  }
+
+  // BRENDAN TESTING FOR API - not hooked to anything
+  loadSplurges() {
+    this.http.get(`${BASE_LB_URL}Tests`)
+      .map(res => res.json())
+      .subscribe(data => console.log('resp: ', data));
   }
 
   delete(item: string) {
