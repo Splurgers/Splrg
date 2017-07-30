@@ -6,7 +6,7 @@ import 'rxjs/add/operator/map';
 
 import { appState } from '../models/appState.model';
 
-const BASE_LB_URL = 'api/';
+const BASE_LB_URL = `${window.location.href.indexOf('localhost') !== -1 ? window.location : 'http://splrg.herokuapp.com/'}api/`;
 
 @Injectable()
 export class PostsService {
@@ -14,6 +14,7 @@ export class PostsService {
 
   constructor(private http: Http, private store: Store<appState>) {
       this.POSTS = store.select('posts');
+      alert(`base url: ${BASE_LB_URL}`);
   }
 
   get() {

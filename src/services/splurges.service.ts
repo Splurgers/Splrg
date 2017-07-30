@@ -10,7 +10,7 @@ import { ModalController } from 'ionic-angular';
 import { appState } from '../models/appState.model';
 import { SPLURGE } from '../models/splurge.model';
 
-const BASE_LB_URL = 'api/';
+const BASE_LB_URL = `${window.location.href.indexOf('localhost') !== -1 ? window.location : 'http://splrg.herokuapp.com/'}api/`;
 
 @Injectable()
 export class SplurgeService {
@@ -32,7 +32,7 @@ export class SplurgeService {
       .map(res => res.json())
       .subscribe(action => this.store.dispatch({ type: 'DELETE_SPLURGE', payload : splurge }));
   }
-  
+
   create(splurge: SPLURGE) {
     this.http.post(`${BASE_LB_URL}SplurgeData`, splurge)
           .map(res => res.json())
