@@ -32,19 +32,21 @@ export class SplurgeService {
       .map(res => res.json())
       .subscribe(action => this.store.dispatch({ type: 'DELETE_SPLURGE', payload : splurge }));
   }
-  
+
   create(splurge: SPLURGE) {
-    this.http.post(`${BASE_LB_URL}SplurgeData`, splurge)
+    let obs = this.http.post(`${BASE_LB_URL}SplurgeData`, splurge)
           .map(res => res.json())
-          .map(payload => ({ type: 'CREATE_SPLURGE', payload }))
-          .subscribe(action => this.store.dispatch(action));
+          .map(payload => ({ type: 'CREATE_SPLURGE', payload }));
+    obs.subscribe(action => this.store.dispatch(action));
+    return obs;
   }
 
   update(selectedSplurge) {
-    this.http.patch(`${BASE_LB_URL}SplurgeData/${selectedSplurge.id}`, selectedSplurge)
+    let obs = this.http.patch(`${BASE_LB_URL}SplurgeData/${selectedSplurge.id}`, selectedSplurge)
           .map(res => res.json())
-          .map(payload => ({ type: 'UPDATE_SPLURGE', payload }))
-          .subscribe(action => this.store.dispatch(action));
+          .map(payload => ({ type: 'UPDATE_SPLURGE', payload }));
+    obs.subscribe(action => this.store.dispatch(action));
+    return obs;
   }
 
   addUseDateToSplurge(selectedSplurge) {
