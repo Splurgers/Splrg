@@ -7,7 +7,6 @@ import { ActionSheetController } from 'ionic-angular';
 import moment from 'moment'
 
 import { Observable } from "rxjs/Observable";
-import { DogsService } from '../../services/dogs.service';
 import { SplurgeService } from '../../services/splurges.service';
 import { SPLURGE } from '../../models/splurge.model';
 
@@ -15,36 +14,19 @@ import { SPLURGE } from '../../models/splurge.model';
 @Component({
   selector: 'page-list',
   templateUrl: 'list.html',
-  providers: [DogsService, SplurgeService]
+  providers: [SplurgeService]
 })
 export class ListPage {
-  dogs: Observable<Array<string>>;
-  SPLURGES: Array<SPLURGE>
+  SPLURGES: Observable<any>;
 
 
   constructor(public navCtrl: NavController,
-              private dogsService: DogsService,
-              private splurgeService: SplurgeService,
+              public splurgeService: SplurgeService,
               public toastCtrl: ToastController,
               public actionSheetCtrl: ActionSheetController) {
-    this.dogs = dogsService.dogs;
 
-    dogsService.loadItems();
-    dogsService.loadSplurges();
-    dogsService.loadPosts();
-
-       let splurges = [
-         {
-            description: 'I should only have one use day left, I already used two today. I created this splurge yesterday',
-            period: 'MONTH',
-            number: 5,
-            use_dates: ['2017-7-29 4:30', '2017-7-29 4:31'],
-            id: '1',
-            created_at: '2010-7-28 4:30'
-         }
-       ];
-
-       this.SPLURGES = splurges.map((splurge) => this.decorateSplurge(splurge));
+       this.SPLURGES = splurgeService.SPLURGES.map((arraySplurg) => arraySplurg.map((splurg) => this.decorateSplurge(splurg)));
+       splurgeService.get();
   }
 
   addSplurge() {
@@ -53,21 +35,21 @@ export class ListPage {
 
   decorateSplurge(splurge) {
     let done_count = 0;
-    let createdAt = moment(splurge.created_at, "YYYY-MM-DD HH:mm");
+    let createdAt = moment(splurge.created_at);
     let currentTime = moment();
 
     let diff = currentTime.diff(createdAt, splurge.period.toLowerCase(), true);
     // TODO: Check if this Math.floor is necessary
     let startOfLatestInterval = createdAt.add(Math.floor(diff), splurge.period.toLowerCase());
 
-    for (let i = 0; i < splurge.number; i++) {
-      let enity = splurge.use_dates[splurge.use_dates.length - (i + 1)];
-      if (enity) {
-        if (moment(enity).isBetween(startOfLatestInterval, currentTime)) done_count++
+    for (let i = 0; i < splurge.uses_per_period; i++) {
+      let use = splurge.use_dates[splurge.use_dates.length - (i + 1)];
+      if (use && typeof use === 'object' && use.hasOwnProperty('date')) {
+        if (moment(use.date).isBetween(startOfLatestInterval, currentTime)) done_count++
       }
     }
 
-    return Object.assign(splurge, { splurges_left: splurge.number - done_count})
+    return Object.assign(splurge, { splurges_left: splurge.uses_per_period - done_count})
   }
 
   showSplurgeCardActions(splurge: SPLURGE) {
@@ -99,9 +81,21 @@ export class ListPage {
 
   useSplurge(event, splurge) {
     event.stopPropagation();
-    let currentTime = moment().format("YYYY-MM-DD HH:mm");;
-    let selectedSplurge = this.SPLURGES.find((s) => s.id === splurge.id);
-    selectedSplurge.use_dates.push(currentTime);
-    this.SPLURGES = this.SPLURGES.map((splurge) => this.decorateSplurge(splurge));
+
+    // TODO: Add disabled class to naughty tickers that have a zero value
+    if (splurge.splurges_left === 0) return;
+
+    let currentSplurges = [];
+    let currentTime = moment().format();
+
+    this.SPLURGES.subscribe(
+      splurges => currentSplurges = splurges,
+      error => console.error(error.json())
+    );
+
+    let selectedSplurge = currentSplurges.find((s) => s.id === splurge.id);
+    // selectedSplurge.use_dates.push(currentTime);
+
+    this.splurgeService.update(selectedSplurge);
   }
 }

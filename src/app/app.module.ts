@@ -18,7 +18,8 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-import { dogs } from '../stores/dogs.store';
+import { posts } from '../stores/posts.store';
+import { splurges } from '../stores/splurges.store';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,7 @@ import { dogs } from '../stores/dogs.store';
         HttpModule,
     ReactiveFormsModule,
     FormsModule,
-    StoreModule.provideStore({ dogs }),
+    StoreModule.provideStore({ posts, splurges}),
     StoreDevtoolsModule.instrumentStore({
       monitor: useLogMonitor({
         visible: false,

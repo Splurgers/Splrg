@@ -7,8 +7,7 @@
 </ion-header>
 
 <ion-content padding>
-
-  <ion-card *ngFor="let POST of POSTS">
+  <ion-card *ngFor="let POST of POSTS | async">
 
     <ion-item>
       <ion-avatar item-start>
