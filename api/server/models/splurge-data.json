@@ -23,7 +23,7 @@
   "relations": {
     "UseDates": {
       "type": "embedsMany",
-      "model": "ConsumeDate",
+      "model": "UseDate",
       "property": "use_dates",
       "options": {
         "validate": true,

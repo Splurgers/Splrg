@@ -1,5 +1,5 @@
 {
-  "name": "ConsumeDate",
+  "name": "UseDate",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {

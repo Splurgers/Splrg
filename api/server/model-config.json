@@ -39,7 +39,7 @@
     "dataSource": "db",
     "public": true
   },
-  "ConsumeDate": {
+  "UseDate": {
     "dataSource": "db",
     "public": true
   }
