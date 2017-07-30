@@ -123,5 +123,11 @@ export class ListPage {
 
     let selectedSplurge = currentSplurges.find((s) => s.id === splurge.id);
     this.splurgeService.addUseDateToSplurge(selectedSplurge);
+    let toast = this.toastCtrl.create({
+      message: `You Splurged with "${selectedSplurge.description}". Enjoy!`,
+      duration: 3000,
+      position: 'top'
+    });
+    toast.present();
   }
 }
