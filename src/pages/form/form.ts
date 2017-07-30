@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import {Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 
-import { NavController } from 'ionic-angular';
+import { ViewController, Platform, NavParams } from 'ionic-angular';
 
 import { PERIOD_OPTIONS } from '../../models/splurge.model';
 
@@ -12,7 +12,10 @@ import { PERIOD_OPTIONS } from '../../models/splurge.model';
 export class FormPage {
   private splurge : FormGroup;
   PERIOD_OPTIONS = PERIOD_OPTIONS;
-  constructor(public navCtrl: NavController,
+
+  constructor(public platform: Platform,
+              public params: NavParams,
+              public viewCtrl: ViewController,
               private formBuilder: FormBuilder) {
 
     this.splurge = this.formBuilder.group({
@@ -25,5 +28,9 @@ export class FormPage {
 
   logForm() {
     console.log(this.splurge.value);
+  }
+
+  dismiss() {
+    this.viewCtrl.dismiss();
   }
 }
