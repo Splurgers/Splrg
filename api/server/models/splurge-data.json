@@ -27,7 +27,7 @@
       "property": "use_dates",
       "options": {
         "validate": true,
-        "forceId": false
+        "forceId": true
       }
     }
   },
