@@ -19,7 +19,6 @@ export class FeedPage {
               private postsService: PostsService,) {
 
     this.POSTS = postsService.POSTS;
-
     postsService.get();
   }
 
@@ -44,7 +43,7 @@ export class FeedPage {
     // TODO: hit service to like POST for now just PUSH/SPLICE into post
     if (userIndex === -1) {
       post.likes.push(this.USER);
-    } else { 
+    } else {
       post.likes.splice(userIndex, 1);
     }
   }
