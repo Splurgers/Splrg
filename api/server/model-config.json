@@ -34,5 +34,13 @@
   "Role": {
     "dataSource": "db",
     "public": false
+  },
+  "SplurgeData": {
+    "dataSource": "db",
+    "public": true
+  },
+  "ConsumeDate": {
+    "dataSource": "db",
+    "public": true
   }
 }

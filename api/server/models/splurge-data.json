@@ -1,0 +1,36 @@
+{
+  "name": "SplurgeData",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "description": {
+      "type": "string",
+      "required": true
+    },
+    "uses_per_period": {
+      "type": "number",
+      "required": true
+    },
+    "period": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "UseDates": {
+      "type": "embedsMany",
+      "model": "ConsumeDate",
+      "property": "use_dates",
+      "options": {
+        "validate": true,
+        "forceId": false
+      }
+    }
+  },
+  "acls": [],
+  "methods": {}
+}
