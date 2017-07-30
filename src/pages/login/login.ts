@@ -17,11 +17,9 @@ export class LoginPage {
 
   constructor(public navCtrl: NavController,
               private userService: UserService) {
-    alert('hi');
   }
 
   login(): void {
-    alert(`href: ${window.location.href}`);
     // TODO: communicate w/ backend
     this.userService.login(this.email, this.password)
       .subscribe(() => this.navCtrl.push(ListPage));

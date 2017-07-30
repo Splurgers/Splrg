@@ -6,7 +6,7 @@ import 'rxjs/add/operator/map';
 
 import { appState } from '../models/appState.model';
 
-const BASE_LB_URL = `${window.location.href.indexOf('localhost') !== -1 ? window.location : 'http://splrg.herokuapp.com/'}api/`;
+const BASE_LB_URL = 'http://splrg.herokuapp.com/api/';
 
 @Injectable()
 export class PostsService {
