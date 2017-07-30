@@ -94,8 +94,6 @@ export class ListPage {
     );
 
     let selectedSplurge = currentSplurges.find((s) => s.id === splurge.id);
-    // selectedSplurge.use_dates.push(currentTime);
-
     this.splurgeService.update(selectedSplurge);
   }
 }
