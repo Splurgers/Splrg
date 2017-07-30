@@ -119,13 +119,15 @@ export class SplurgeService {
               let user;
               this.user.subscribe((res) => {user = res; return res});
               console.log('user!!', user);
-          var animal = {
+              let photoURL = user.id === 1 ? 'https://store.storeimages.cdn-apple.com/8750/as-images.apple.com/is/image/AppleInc/aos/published/images/4/2/42/hermes/42-hermes-singletour-fauve-grid-201703?wid=270&hei=275&fmt=jpeg&qlt=95&op_sharpen=0&resMode=bicub&op_usm=0.5,0.5,0,0&iccEmbed=0&layer=comp&.v=1489516185164' : 'http://www.coca-colaproductfacts.com/content/dam/productfacts/us/productDetails/ProductImages/DietCoke_12oz.png'
+              console.log(photoURL);
+              var animal = {
             "user_id": user.id,
             "name": user.username,
             "profile_url": user.profile_url,
             "description": 'dank',
-            "status": `I did it!! ${selectedSplurge.description}`,
-            "photo_url": "https://s-media-cache-ak0.pinimg.com/736x/af/7f/f2/af7ff2bec6283f929f2dcd66b806e656.jpg",
+            "status": `Good times! ${selectedSplurge.description}`,
+            "photo_url": photoURL,
             "timestamp" : (new Date()).toString()
           }
 
