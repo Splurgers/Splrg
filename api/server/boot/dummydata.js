@@ -9,6 +9,23 @@ module.exports = function(app, cb) {
    * for more info.
    */
   // REMOVE DUMMY DATA when needed
+  app.models.SplurgeUser.create(
+    [
+      {
+        profile_url: 'https://lh3.googleusercontent.com/-pxbfAkJZTXQ/Udx8jXeQ8NI/AAAAAAAAADs/7x2mM9vENlwHo4d1wH65EWxqXZyXhBQ8gCEwYBhgL/w280-h280-p/Jul%2B9%252C%2B2013%2B2%253A11%253A36%2BPM.jpg',
+        username: 'brendan',
+        email: 'brendan@splurge.com',
+        password: 'yolo'
+      },
+      {
+        profile_url: 'https://avatars2.githubusercontent.com/u/9978662?v=4&s=400',
+        username: 'arash',
+        email: 'arash@splurge.com',
+        password: 'yolo'
+      }
+    ]
+  );
+
   app.models.SplurgeData.create(
     [
       {
