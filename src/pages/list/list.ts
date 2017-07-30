@@ -8,13 +8,14 @@ import moment from 'moment'
 
 import { Observable } from "rxjs/Observable";
 import { SplurgeService } from '../../services/splurges.service';
+import { SplurgeActionsService } from '../../services/splurge_actions.service';
 import { SPLURGE } from '../../models/splurge.model';
 
 
 @Component({
   selector: 'page-list',
   templateUrl: 'list.html',
-  providers: [SplurgeService]
+  providers: [SplurgeService, SplurgeActionsService]
 })
 export class ListPage {
   SPLURGES: Observable<any>;
@@ -22,6 +23,7 @@ export class ListPage {
 
   constructor(public navCtrl: NavController,
               public splurgeService: SplurgeService,
+              public splurgeActionsService: SplurgeActionsService,
               public toastCtrl: ToastController,
               public actionSheetCtrl: ActionSheetController) {
 
@@ -30,7 +32,7 @@ export class ListPage {
   }
 
   addSplurge() {
-    this.splurgeService.goToSplurgeForm();
+    this.splurgeActionsService.goToSplurgeForm();
   }
 
   decorateSplurge(splurge) {
@@ -60,12 +62,12 @@ export class ListPage {
           text: 'Edit',
           role: 'destructive',
           handler: () => {
-            this.splurgeService.goToSplurgeForm(splurge);
+            this.splurgeActionsService.goToSplurgeForm(splurge);
           }
         },{
           text: 'Delete',
           handler: () => {
-            // pass in splurge.id to API
+            this.splurgeService.delete(splurge);
             let toast = this.toastCtrl.create({
               message: `You deleted ${splurge.description}`,
               duration: 3000,
@@ -94,6 +96,6 @@ export class ListPage {
     );
 
     let selectedSplurge = currentSplurges.find((s) => s.id === splurge.id);
-    this.splurgeService.update(selectedSplurge);
+    this.splurgeService.addUseDateToSplurge(selectedSplurge);
   }
 }

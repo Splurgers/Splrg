@@ -7,8 +7,6 @@ import 'rxjs/add/operator/map';
 
 import { ModalController } from 'ionic-angular';
 
-import { FormPage } from '../pages/form/form';
-
 import { appState } from '../models/appState.model';
 import { SPLURGE } from '../models/splurge.model';
 
@@ -29,28 +27,34 @@ export class SplurgeService {
       .subscribe(action => this.store.dispatch(action));
   }
 
-  delete(item: string) {
-    this.store.dispatch({ type: 'DELETE_POST', payload: item });
+  delete(splurge: SPLURGE) {
+    this.http.delete(`${BASE_LB_URL}SplurgeData/${splurge.id}`)
+      .map(res => res.json())
+      .subscribe(action => this.store.dispatch({ type: 'DELETE_SPLURGE', payload : splurge }));
   }
-
-  goToSplurgeForm(splurgeToEdit? : SPLURGE) {
-    let modal = this.modalCtrl.create(FormPage, splurgeToEdit);
-    modal.present();
+  
+  create(splurge: SPLURGE) {
+    this.http.post(`${BASE_LB_URL}SplurgeData`, splurge)
+          .map(res => res.json())
+          .map(payload => ({ type: 'CREATE_SPLURGE', payload }))
+          .subscribe(action => this.store.dispatch(action));
   }
 
   update(selectedSplurge) {
+    this.http.patch(`${BASE_LB_URL}SplurgeData/${selectedSplurge.id}`, selectedSplurge)
+          .map(res => res.json())
+          .map(payload => ({ type: 'UPDATE_SPLURGE', payload }))
+          .subscribe(action => this.store.dispatch(action));
+  }
+
+  addUseDateToSplurge(selectedSplurge) {
 
     this.http.post(`${BASE_LB_URL}SplurgeData/${selectedSplurge.id}/UseDates`, {})
           .map(res => res.json())
-          .map(test => {
-            selectedSplurge.use_dates = [...selectedSplurge.use_dates, test];
-            let x = selectedSplurge;
-            console.log(selectedSplurge);
-            return ({ type: 'UPDATE_SPLURGE', payload: x });
+          .map(res => {
+            selectedSplurge.use_dates = [...selectedSplurge.use_dates, res];
+            return ({ type: 'UPDATE_SPLURGE', payload: selectedSplurge });
           })
-          .subscribe(action => {
-            console.log('action', action);
-            this.store.dispatch(action)
-          });
+          .subscribe(action => this.store.dispatch(action));
   }
 }

@@ -1,3 +1,5 @@
 export interface appState {
-  dogs: string[]
+  posts: any[],
+  splurges: any[],
+  user: object
 };
