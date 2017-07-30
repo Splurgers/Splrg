@@ -27,7 +27,13 @@ export class DogsService {
 
   // BRENDAN TESTING FOR API - not hooked to anything
   loadSplurges() {
-    this.http.get(`${BASE_LB_URL}Tests`)
+    this.http.get(`${BASE_LB_URL}SplurgeData`)
+      .map(res => res.json())
+      .subscribe(data => console.log('resp: ', data));
+  }
+
+  loadPosts() {
+    this.http.get(`${BASE_LB_URL}Posts`)
       .map(res => res.json())
       .subscribe(data => console.log('resp: ', data));
   }

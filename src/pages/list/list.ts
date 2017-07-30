@@ -19,7 +19,7 @@ export class ListPage {
   dogs: Observable<Array<string>>;
 
 
-  constructor(public navCtrl: NavController, 
+  constructor(public navCtrl: NavController,
               private dogsService: DogsService,
               private splurgeService: SplurgeService,
               public toastCtrl: ToastController,
@@ -27,7 +27,7 @@ export class ListPage {
     this.dogs = dogsService.dogs;
 
     dogsService.loadItems();
-    dogsService.loadSplurges();
+    dogsService.loadPosts();
   }
 
   showSplurgeCardActions(splurge: SPLURGE) {
@@ -39,7 +39,7 @@ export class ListPage {
           role: 'destructive',
           handler: () => {
             // TODO: update to not use hard coded splurge
-      
+
             let mockObject = {
                 description: 'test',
                 period: "MONTH",
