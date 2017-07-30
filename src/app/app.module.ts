@@ -14,6 +14,7 @@ import { FeedPage } from '../pages/feed/feed';
 import { FormPage } from '../pages/form/form';
 import { ListPage } from '../pages/list/list';
 import { TabsPage } from '../pages/tabs/tabs';
+import { LoginPage } from '../pages/login/login';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -26,6 +27,7 @@ import { dogs } from '../stores/dogs.store';
     FeedPage,
     FormPage,
     ListPage,
+    LoginPage,
     TabsPage
   ],
   imports: [
@@ -49,6 +51,7 @@ import { dogs } from '../stores/dogs.store';
     FeedPage,
     FormPage,
     ListPage,
+    LoginPage,
     TabsPage
   ],
   providers: [
