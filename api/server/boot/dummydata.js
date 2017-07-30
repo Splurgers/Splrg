@@ -47,6 +47,11 @@ module.exports = function(app, cb) {
         description: 'Delicious Steak Dinner',
         uses_per_period: 3,
         period: 'MONTH'
+      },
+      {
+        description: 'Drink a Soda',
+        uses_per_period: 3,
+        period: 'MONTH'
       }
     ]
 
