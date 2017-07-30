@@ -1,24 +1,21 @@
 import { Component } from '@angular/core';
 
 import { FeedPage } from '../feed/feed';
-import { FormPage } from '../form/form';
 import { ListPage } from '../list/list';
 
-import { ModalController } from 'ionic-angular';
+import { SplurgeService } from '../../services/splurges.service';
 
 @Component({
-  templateUrl: 'tabs.html'
+  templateUrl: 'tabs.html',
+  providers: [SplurgeService]
 })
 export class TabsPage {
   tab1Root = ListPage;
   tab2Root = FeedPage;
   
-  constructor(public modalCtrl: ModalController) {
-
-  }
+  constructor(private splurgeService: SplurgeService) {}
 
   presentModal() {
-    let modal = this.modalCtrl.create(FormPage);
-    modal.present();
+    this.splurgeService.goToSplurgeForm();
   }
 }
