@@ -6,18 +6,21 @@ import { ActionSheetController } from 'ionic-angular';
 
 import { Observable } from "rxjs/Observable";
 import { DogsService } from '../../services/dogs.service';
+import { SplurgeService } from '../../services/splurges.service';
+import { SPLURGE } from '../../models/splurge.model';
 
 
 @Component({
   selector: 'page-list',
   templateUrl: 'list.html',
-  providers: [DogsService]
+  providers: [DogsService, SplurgeService]
 })
 export class ListPage {
   dogs: Observable<Array<string>>;
 
   constructor(public navCtrl: NavController, 
-              private dogsService: DogsService, 
+              private dogsService: DogsService,
+              private splurgeService: SplurgeService,
               public toastCtrl: ToastController,
               public actionSheetCtrl: ActionSheetController) {
     this.dogs = dogsService.dogs;
@@ -25,7 +28,7 @@ export class ListPage {
     dogsService.loadItems();
   }
 
-  showSplurgeCardActions(splurge) {
+  showSplurgeCardActions(splurge: SPLURGE) {
     let actionSheet = this.actionSheetCtrl.create({
       title: 'Splurge Actions',
       buttons: [
@@ -33,6 +36,17 @@ export class ListPage {
           text: 'Edit',
           role: 'destructive',
           handler: () => {
+            // TODO: update to not use hard coded splurge
+      
+            let mockObject = {
+                description: 'test',
+                period: "MONTH",
+                number: 1,
+                use_dates: [],
+                id: '1'
+            };
+
+            this.splurgeService.goToSplurgeForm(mockObject);
             console.log('Edit clicked');
             // pass in splurge to form
           }

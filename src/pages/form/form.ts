@@ -16,18 +16,22 @@ export class FormPage {
   constructor(public platform: Platform,
               public params: NavParams,
               public viewCtrl: ViewController,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder, 
+              private _navParams: NavParams) {
 
     this.splurge = this.formBuilder.group({
-      number: ['', Validators.required],
-      description: ['', Validators.required],
-      period: ['', Validators.required]
+      number: [this._navParams.get('number') || '', Validators.required],
+      description: [this._navParams.get('description') || '', Validators.required],
+      period: [this._navParams.get('period') || '', Validators.required]
     });
 
   }
 
   logForm() {
-    console.log(this.splurge.value);
+    let splurgeId = this._navParams.get('id');
+
+    //TODO: Do Update to Splurge
+    console.log(splurgeId, this.splurge.value);
   }
 
   dismiss() {

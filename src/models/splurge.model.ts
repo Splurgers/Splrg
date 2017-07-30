@@ -1,12 +1,12 @@
-type period =
-    "DAY"
-    | "WEEK"
-    | "MONTH"
-    | "YEAR";
-    
+// type period =
+//     "DAY"
+//     | "WEEK"
+//     | "MONTH"
+//     | "YEAR";
+
 export interface SPLURGE {
     description: string,
-    period: period,
+    period: string, // TODO: Figure out how to use PERIOD type period without breaking all instances where we're using SPLURGE interface
     number: number,
     use_dates?: Array<string>,
     id?: string
