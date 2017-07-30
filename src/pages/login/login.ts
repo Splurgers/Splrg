@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { ListPage } from '../list/list';
+import { TabsPage } from '../tabs/tabs';
 import { UserService } from '../../services/user.service';
 
 import 'rxjs/add/operator/mergeMap';
@@ -23,7 +23,7 @@ export class LoginPage {
   login(): void {
     // TODO: communicate w/ backend
     this.userService.login(this.email, this.password)
-      .subscribe(() => this.navCtrl.push(ListPage));
+      .subscribe(() => this.navCtrl.push(TabsPage));
   }
 }
 
