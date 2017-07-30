@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>
+    <ion-title (click)="createPost()">
       Feed
     </ion-title>
   </ion-navbar>
@@ -33,7 +33,8 @@
       </ion-col>
        <ion-col text-right>
            <button disabled ion-button small item-right clear>
-            <p>{{ POST?.timestamp | date: 'mediumDate' }}</p> 
+            <p *ngIf="POST.timestamp">{{ POST.timestamp | date: 'mediumDate' }}</p> 
+            <p *ngIf="!POST.timestamp">Just Now!</p> 
           </button> 
       </ion-col> 
     </ion-row>

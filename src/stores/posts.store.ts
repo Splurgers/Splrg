@@ -2,9 +2,9 @@
 export const posts = (state: any = [], {type, payload}) => {
   switch (type) {
     case 'ADD_POSTS':
-      return payload;
+      return payload.reverse();
     case 'CREATE_POST':
-      return [...state, payload];
+      return [payload, ...state];
     case 'UPDATE_POST':
       return state.map(item => {
         return item.id === payload.id ? Object.assign({}, item, payload) : item;

@@ -19,6 +19,7 @@ import { LoginPage } from '../pages/login/login';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
+import { PostsService } from '../services/posts.service';
 
 import { user } from '../stores/user.store';
 import { posts } from '../stores/posts.store';
@@ -60,7 +61,8 @@ import { splurges } from '../stores/splurges.store';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    PostsService
   ]
 })
 export class AppModule {}
