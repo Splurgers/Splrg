@@ -13,14 +13,14 @@
 </ion-header>
 
 <ion-content padding>
-  <form [formGroup]="splurge" (ngSubmit)="logForm()">
+  <form [formGroup]="splurge" (ngSubmit)="submitForm()">
     <ion-item>
       <ion-label>Splurge</ion-label>
       <ion-textarea formControlName="description"></ion-textarea>
     </ion-item>
     <ion-item>
       <ion-label>Occurence</ion-label>
-      <ion-input type="number" formControlName="number"></ion-input>
+      <ion-input type="number" formControlName="uses_per_period"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label>Per</ion-label>
