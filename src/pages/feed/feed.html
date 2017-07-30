@@ -8,4 +8,36 @@
 
 <ion-content padding>
 
+  <ion-card *ngFor="let POST of POSTS">
+
+    <ion-item>
+      <ion-avatar item-start>
+        <img [src]="POST?.profile_url">
+      </ion-avatar>
+      <h2>{{ POST.name }}</h2>
+    </ion-item>
+
+    <img [src]="POST?.photo_url"/>
+
+    <ion-card-content>
+      <p> {{ POST?.status ||  POST?.description }}</p>
+    </ion-card-content>
+
+    <ion-row>
+      <ion-col>
+        <button ion-button icon-left clear small 
+                [ngStyle]="{'color': hasLiked(POST?.likes) ? '' : 'gray'}"
+                (click)="toggleLikePost(POST?.id)">
+          <ion-icon name="heart"></ion-icon>
+          <div>{{ POST?.likes?.length }} Likes</div>
+        </button>
+      </ion-col>
+       <ion-col text-right>
+           <button disabled ion-button small item-right clear>
+            <p>{{ POST?.timestamp | date: 'mediumDate' }}</p> 
+          </button> 
+      </ion-col> 
+    </ion-row>
+    
+  </ion-card>
 </ion-content>
