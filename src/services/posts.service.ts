@@ -22,4 +22,15 @@ export class PostsService {
       .map(payload => ({ type: 'ADD_POSTS', payload }))
       .subscribe(action => this.store.dispatch(action));
   }
+
+  create(post) {
+    this.http.post(`${BASE_LB_URL}Posts`, post)
+          .map(res => res.json())
+          .map(payload => ({ type: 'CREATE_POST', payload }))
+          .subscribe(action => this.store.dispatch(action));
+  }
+    
+  addToStore(post) {
+    this.store.dispatch({ type: 'CREATE_POST', payload: post })
+  }
 }

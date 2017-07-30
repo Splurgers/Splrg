@@ -16,10 +16,11 @@ import * as RTMClient from 'satori-sdk-js';
 export class FeedPage {
   POSTS: Observable<Array<POST>>;
   USER: string;
-  CLIENT: string;
+  CLIENT: any;
+  CHANNEL_NAME: string;
 
   constructor(public navCtrl: NavController,
-              private postsService: PostsService,) {
+              public postsService: PostsService,) {
 
     this.POSTS = postsService.POSTS;
 
@@ -28,77 +29,69 @@ export class FeedPage {
   }
 
   initSatori() {
+
     var endpoint = 'wss://cbw0as1p.api.satori.com';
     var appkey = 'e65d10E50Aab0A46767B75b9Bdcb002d';
     var role = 'arash';
     var roleSecret = '15CBcCD0cFC50DCBBb1Cb8a4E4dB78E0';
-    var channelName = "POSTS";
+    this.CHANNEL_NAME = "POSTS";
 
     var shouldAuthenticate = "YOUR_ROLE" != role;
     var authProvider;
     if (shouldAuthenticate) {
         authProvider = RTMClient.roleSecretAuthProvider(role, roleSecret);
     }
-    var client = new RTMClient(endpoint, appkey, { authProvider: authProvider });
+    this.CLIENT = new RTMClient(endpoint, appkey, { authProvider: authProvider });
     
-  client.on("enter-connected", function () {
-      console.log("Connected to Satori RTM!");
-    });
-    client.on("leave-connected", function () {
+    this.CLIENT.on("enter-connected", function () {
+        console.log("Connected to Satori RTM!");
+      });
+    this.CLIENT.on("leave-connected", function () {
       console.log("Disconnected from Satori RTM");
     });
-    client.on("error", function (error) {
+    this.CLIENT.on("error", function (error) {
       var reason;
       if (error.body) {
         reason = error.body.error + " - " + error.body.reason;
       } else {
         reason = "unknown reason";
       }
-      console.log("RTM client failed: " + reason);
+      console.log("RTM this.CLIENT failed: " + reason);
     });
 
-    client.start();
+    this.CLIENT.start();
 
-       // Show information about the client configuration
-      var configInfo = "RTM client config:<br />";
-      configInfo += "&nbsp;&nbsp;endpoint = '" + endpoint + "'<br />";
-      configInfo += "&nbsp;&nbsp;appkey = '" + appkey + "'<br />";
-      configInfo += "&nbsp;&nbsp;authenticate? = " + shouldAuthenticate;
-      if (shouldAuthenticate) {
-        configInfo += " (as " + role + ")";
-      }
-      console.log(configInfo);
+    var subscription = this.CLIENT.subscribe(this.CHANNEL_NAME, RTMClient.SubscriptionMode.SIMPLE);
+    subscription.on("enter-subscribed",() => {
+      console.log("Subscribed to the channel: " + this.CHANNEL_NAME);
+    });
+    subscription.on("rtm/subscribe/error", function(pdu) {
+      console.log("Failed to subscribe: " + pdu.body.error + " - " + pdu.body.reason);
+    });
+    subscription.on("rtm/subscription/data", (pdu) => {
+      pdu.body.messages.forEach((msg) => {
+        this.postsService.addToStore(msg)
+        console.log("Animal is received: " + msg);
+      });
+    });
+  }
 
-      // At this point, the client may not yet be connected to Satori RTM.
-      // The SDK internally creates a subscription object and will subscribe
-      // once the client connects.
-      var subscription = client.subscribe(channelName, RTMClient.SubscriptionMode.SIMPLE);
-      subscription.on("enter-subscribed", function() {
-        // When subscription is established (confirmed by Satori RTM).
-        console.log("Subscribed to the channel: " + channelName);
-      });
-      subscription.on("rtm/subscribe/error", function(pdu) {
-        // When a subscribe error occurs.
-        console.log("Failed to subscribe: " + pdu.body.error + " - " + pdu.body.reason);
-      });
-      subscription.on("rtm/subscription/data", function(pdu) {
-        // Messages arrive in an array.
-        pdu.body.messages.forEach(function(msg) {
-          console.log("Animal is received: " + JSON.stringify(msg));
-        });
-      });
+  createPost() {
+    if (this.CLIENT.isConnected()) {
 
-      var publishLoop  = function() {
-        // At this point, the client may not yet be connected to Satori RTM.
-        // If client is not connected then skip publishing.
-        if (client.isConnected()) {
-          var lat = 34.134358 + (Math.random() / 100);
-          var lon = -118.321506 + (Math.random() / 100);
+      // USER ID SHOULD USE GLOBAL USER
           var animal = {
-            who: "zebra",
-            where: [lat, lon]
-          };
-          client.publish(channelName, animal, function(pdu) {
+            "user_id": "2",
+            "name": "ARASH TEST!!!",
+            "profile_url": "http://static.buzznet.com/uploads/2011/10/msg-13175062972.jpg",
+            "description": "Drink a glass of wine",
+            "status": "Mmmm... do I taste notes of, uh, red?",
+            "photo_url": "https://s-media-cache-ak0.pinimg.com/736x/af/7f/f2/af7ff2bec6283f929f2dcd66b806e656.jpg",
+          }
+
+          this.postsService.create(animal);
+          
+          this.CLIENT.publish(this.CHANNEL_NAME, animal, function(pdu) {
             if (pdu.action.endsWith("/ok")) {
               // Publish is confirmed by Satori RTM.
               console.log("Animal is published: " + JSON.stringify(animal));
@@ -107,8 +100,6 @@ export class FeedPage {
             }
           });
         }
-      }
-      setInterval(publishLoop, 2000);
   }
 
   hasLiked(array_liked_ids : Array<string>) {
