@@ -20,6 +20,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { dogs } from '../stores/dogs.store';
+import { user } from '../stores/user.store';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,7 @@ import { dogs } from '../stores/dogs.store';
         HttpModule,
     ReactiveFormsModule,
     FormsModule,
-    StoreModule.provideStore({ dogs }),
+    StoreModule.provideStore({ dogs, user }),
     StoreDevtoolsModule.instrumentStore({
       monitor: useLogMonitor({
         visible: false,
