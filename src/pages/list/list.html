@@ -6,9 +6,9 @@
 
 <ion-content padding>
 
-  <ion-card *ngFor="let dog of dogs | async ">
+  <ion-card *ngFor="let dog of dogs | async">
 
-    <ion-card-content (click)="showSplurgeCardActions()">
+    <ion-card-content (click)="showSplurgeCardActions(dog)">
       {{ dog }}
     </ion-card-content>
 
