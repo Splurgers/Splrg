@@ -20,14 +20,15 @@
 
 <ion-content padding>
 
-  <ion-card *ngFor="let SPLURGE of SPLURGES">
+  <ion-card *ngFor="let SPLURGE of SPLURGES | async">
 
       <ion-row style="height: 60px;" (click)="showSplurgeCardActions(SPLURGE)">
+
         <ion-col>
           <div style='position: absolute; top: -45px; left: 10px;'>
-            <div class="progress-pie-chart" (click)="useSplurge($event, SPLURGE)" [ngClass]="{'gt-50': SPLURGE.splurges_left / SPLURGE.number > .50}">
+            <div class="progress-pie-chart" (click)="useSplurge($event, SPLURGE)" [ngClass]="{'gt-50': SPLURGE.splurges_left / SPLURGE.uses_per_period > .50}">
               <div class="ppc-progress">
-                <div class="ppc-progress-fill" [style.transform]="'rotate('+ (SPLURGE.splurges_left / SPLURGE.number * 360) +'deg)'"></div>
+                <div class="ppc-progress-fill" [style.transform]="'rotate('+ (SPLURGE.splurges_left / SPLURGE.uses_per_period * 360) +'deg)'"></div>
               </div>
               <div class="ppc-percents">
                 <div class="pcc-percents-wrapper">
