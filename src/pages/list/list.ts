@@ -27,7 +27,9 @@ export class ListPage {
               public toastCtrl: ToastController,
               public actionSheetCtrl: ActionSheetController) {
 
-       this.SPLURGES = splurgeService.SPLURGES.map((arraySplurg) => arraySplurg.map((splurg) => this.decorateSplurge(splurg)));
+      // TODO: Understand observables so code below actually works
+      //  this.SPLURGES = splurgeService.SPLURGES.map((arraySplurg) => arraySplurg.map((splurg) => this.decorateSplurge(splurg)));
+       this.SPLURGES = splurgeService.SPLURGES
        splurgeService.get();
   }
 
@@ -35,23 +37,46 @@ export class ListPage {
     this.splurgeActionsService.goToSplurgeForm();
   }
 
-  decorateSplurge(splurge) {
-    let done_count = 0;
-    let createdAt = moment(splurge.created_at);
-    let currentTime = moment();
+  // TODO: Make this work properly with the this.SPLURGES...for now just use helper methods in view
+  // decorateSplurge(splurge) {
+  //   let done_count = 0;
+  //   let createdAt = moment(splurge.created_at);
+  //   let currentTime = moment();
 
-    let diff = currentTime.diff(createdAt, splurge.period.toLowerCase(), true);
-    // TODO: Check if this Math.floor is necessary
-    let startOfLatestInterval = createdAt.add(Math.floor(diff), splurge.period.toLowerCase());
+  //   let diff = currentTime.diff(createdAt, splurge.period.toLowerCase(), true);
+  //   // TODO: Check if this Math.floor is necessary
+  //   let startOfLatestInterval = createdAt.add(Math.floor(diff), splurge.period.toLowerCase());
 
-    for (let i = 0; i < splurge.uses_per_period; i++) {
-      let use = splurge.use_dates[splurge.use_dates.length - (i + 1)];
-      if (use && typeof use === 'object' && use.hasOwnProperty('date')) {
-        if (moment(use.date).isBetween(startOfLatestInterval, currentTime)) done_count++
+  //   for (let i = 0; i < splurge.uses_per_period; i++) {
+  //     let use = splurge.use_dates[splurge.use_dates.length - (i + 1)];
+  //     if (use && typeof use === 'object' && use.hasOwnProperty('date')) {
+  //       if (moment(use.date).isBetween(startOfLatestInterval, currentTime)) done_count++
+  //     }
+  //   }
+
+  //   return Object.assign(splurge, { splurges_left: splurge.uses_per_period - done_count})
+  // }
+
+   getSplurgesLeft(splurge) {
+    if (splurge && typeof splurge === 'object' && splurge.hasOwnProperty('created_at')) {
+      let done_count = 0;
+      let createdAt = moment(splurge.created_at);
+      let currentTime = moment();
+
+      let diff = currentTime.diff(createdAt, splurge.period.toLowerCase(), true);
+      // TODO: Check if this Math.floor is necessary
+      let startOfLatestInterval = createdAt.add(Math.floor(diff), splurge.period.toLowerCase());
+
+      for (let i = 0; i < splurge.uses_per_period; i++) {
+        let use = splurge.use_dates[splurge.use_dates.length - (i + 1)];
+        if (use && typeof use === 'object' && use.hasOwnProperty('date')) {
+          if (moment(use.date).isBetween(startOfLatestInterval, currentTime)) done_count++
+        }
       }
+      return splurge.uses_per_period - done_count;
+    } else {
+      return 0;
     }
-
-    return Object.assign(splurge, { splurges_left: splurge.uses_per_period - done_count})
   }
 
   showSplurgeCardActions(splurge: SPLURGE) {
@@ -85,7 +110,8 @@ export class ListPage {
     event.stopPropagation();
 
     // TODO: Add disabled class to naughty tickers that have a zero value
-    if (splurge.splurges_left === 0) return;
+    // if (splurge.splurges_left === 0) return;
+    if (this.getSplurgesLeft(splurge) === 0) return;
 
     let currentSplurges = [];
     let currentTime = moment().format();
