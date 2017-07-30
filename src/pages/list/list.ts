@@ -27,6 +27,7 @@ export class ListPage {
     this.dogs = dogsService.dogs;
 
     dogsService.loadItems();
+    dogsService.loadSplurges();
     dogsService.loadPosts();
   }
 
