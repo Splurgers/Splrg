@@ -1,0 +1,23 @@
+<ion-row (click)="showSplurgeCardActions.emit(SPLURGE)">
+     <ion-col>
+        <div class="progress-wrapper">
+            <div class="current circle-wrapper" >{{ SPLURGES_LEFT }}/{{ SPLURGE.uses_per_period }}</div>
+            <round-progress 
+                (click)="useSplurge.emit({$event : $event, splurge : SPLURGE, SPLURGES_LEFT: SPLURGES_LEFT})" 
+                [current]="SPLURGES_LEFT"
+                [max]="SPLURGE.uses_per_period"
+                animation="linearEase"
+                delay="0" 
+                duration="1" 
+                stroke="25" 
+                color="#45ccce" 
+                background="#eaeaea"
+                responsive="true" 
+                clockwise="true">
+            </round-progress>
+        </div>
+    </ion-col> 
+    <ion-col col-10 class='splurge-description'>
+        {{ SPLURGE.description }}
+    </ion-col>
+</ion-row>

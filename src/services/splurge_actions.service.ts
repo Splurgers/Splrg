@@ -12,7 +12,6 @@ export class SplurgeActionsService {
   constructor(public modalCtrl: ModalController) {}
 
   goToSplurgeForm(splurgeToEdit? : SPLURGE) {
-    console.log('SPLURGE', splurgeToEdit);
     let modal = this.modalCtrl.create(FormPage, splurgeToEdit);
     modal.present();
   }
