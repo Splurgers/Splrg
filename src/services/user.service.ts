@@ -27,9 +27,18 @@ export class UserService {
     return post;
   }
 
+  setCachedUser(userInfo) {
+    this.store.dispatch({ type: 'ADD_USER', payload: userInfo })
+  }
+
   fetchUser(auth: string, id: number) {
     return this.http.get(`${BASE_LB_URL}SplurgeUsers/${id}/?access_token=${auth}`)
       .map(res => res.json());
+  }
+
+  logout() {
+    localStorage.clear();
+    this.store.dispatch({ type: 'REMOVE_USER'} )
   }
 
 }
