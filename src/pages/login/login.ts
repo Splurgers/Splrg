@@ -23,7 +23,10 @@ export class LoginPage {
   login(): void {
     // TODO: communicate w/ backend
     this.userService.login(this.email, this.password)
-      .subscribe(() => this.navCtrl.push(TabsPage));
+      .subscribe((res) => {
+        localStorage.setItem('user', JSON.stringify(res.payload));
+        this.navCtrl.push(TabsPage)
+      });
   }
 }
 

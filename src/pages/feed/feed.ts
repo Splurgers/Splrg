@@ -102,8 +102,6 @@ export class FeedPage {
           
           this.CLIENT.publish(this.CHANNEL_NAME, animal, function(pdu) {
             if (pdu.action.endsWith("/ok")) {
-              // Publish is confirmed by Satori RTM.
-              console.log("Animal is published: " + JSON.stringify(animal));
             } else {
               console.log("Publish request failed: " + pdu.body.error + " - " + pdu.body.reason);
             }

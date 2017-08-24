@@ -1,0 +1,38 @@
+splurge-card {
+    .progress-wrapper {
+        position: relative;
+        font-size: 1.25rem;
+        top: 50%;
+        transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        -moz-transform: translateY(-50%);
+        -webkit-transform: translateY(-50%);
+        -o-transform: translateY(-50%);
+    }
+
+    .current {
+        position: absolute;
+        color: #bbb;
+        font-weight: 100;
+        line-height: 1;
+        -moz-transform: translateY(-50%) translateX(-50%);
+        -webkit-transform: translateY(-50%) translateX(-50%);
+        bottom: auto;
+        left: 50%;
+        top: 50%;
+        transform: translateY(-50%) translateX(-50%)
+    }
+
+    round-progress {
+        margin: auto;
+    }
+
+    .splurge-description {
+        font-size: 17px;
+        overflow: hidden;
+        padding-top: 8px;
+        padding-left: 15px;
+        margin: auto;
+        max-height: 70px;
+  }
+}

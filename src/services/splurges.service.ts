@@ -111,43 +111,51 @@ export class SplurgeService {
   }
 
   addUseDateToSplurge(selectedSplurge) {
-        console.log(selectedSplurge);
 
     if (this.CLIENT.isConnected()) {
-        console.log(selectedSplurge, 'connected');
       // USER ID SHOULD USE GLOBAL USER
-              let user;
-              this.user.subscribe((res) => {user = res; return res});
-              console.log('user!!', user);
-              let photoURL = user.id === 1 ? 'https://store.storeimages.cdn-apple.com/8750/as-images.apple.com/is/image/AppleInc/aos/published/images/4/2/42/hermes/42-hermes-singletour-fauve-grid-201703?wid=270&hei=275&fmt=jpeg&qlt=95&op_sharpen=0&resMode=bicub&op_usm=0.5,0.5,0,0&iccEmbed=0&layer=comp&.v=1489516185164' : 'http://www.coca-colaproductfacts.com/content/dam/productfacts/us/productDetails/ProductImages/DietCoke_12oz.png'
-              console.log(photoURL);
-              var animal = {
-            "user_id": user.id,
-            "name": user.username,
-            "profile_url": user.profile_url,
-            "description": 'dank',
-            "status": `Good times! ${selectedSplurge.description}`,
-            "photo_url": photoURL,
-            "timestamp" : (new Date()).toString()
-          }
+      let user;
+      this.user.subscribe((res) => { user = res; return res });
+      let photoURL = user.id === 1 ? 'https://store.storeimages.cdn-apple.com/8750/as-images.apple.com/is/image/AppleInc/aos/published/images/4/2/42/hermes/42-hermes-singletour-fauve-grid-201703?wid=270&hei=275&fmt=jpeg&qlt=95&op_sharpen=0&resMode=bicub&op_usm=0.5,0.5,0,0&iccEmbed=0&layer=comp&.v=1489516185164' : 'http://www.coca-colaproductfacts.com/content/dam/productfacts/us/productDetails/ProductImages/DietCoke_12oz.png'
+      var animal = {
+        "user_id": user.id,
+        "name": user.username,
+        "profile_url": user.profile_url,
+        "description": 'dank',
+        "status": `Good times! ${selectedSplurge.description}`,
+        "photo_url": photoURL,
+        "timestamp": (new Date()).toString()
+      }
 
-          this.postsService.create(animal);
-          
-          this.CLIENT.publish(this.CHANNEL_NAME, animal, function(pdu) {
-            if (pdu.action.endsWith("/ok")) {
-              console.log("Animal is published: " + JSON.stringify(animal));
-            } else {
-              console.log("Publish request failed: " + pdu.body.error + " - " + pdu.body.reason);
-            }
-          });
+      this.postsService.create(animal);
+
+      this.CLIENT.publish(this.CHANNEL_NAME, animal, function (pdu) {
+        if (pdu.action.endsWith("/ok")) {
+          // console.log("Animal is published: " + JSON.stringify(animal));
+        } else {
+          console.log("Publish request failed: " + pdu.body.error + " - " + pdu.body.reason);
         }
+      });
+    }
+
+    // Optimistic Render
+    var lastSplurgeUse = selectedSplurge.use_dates[selectedSplurge.use_dates.length - 1];
+    var newSplurgeUse = {
+      date : new Date(),
+      id: lastSplurgeUse + 1  || 1
+    }
+    selectedSplurge.use_dates = [...selectedSplurge.use_dates, newSplurgeUse];
+    this.store.dispatch({ type: 'UPDATE_SPLURGE', payload: selectedSplurge })
 
     this.http.post(`${BASE_LB_URL}SplurgeData/${selectedSplurge.id}/UseDates`, {})
-          .map(res => res.json())
-          .map(res => {
-            selectedSplurge.use_dates = [...selectedSplurge.use_dates, res];
-            return ({ type: 'UPDATE_SPLURGE', payload: selectedSplurge });
-          })
-          .subscribe(action => this.store.dispatch(action));
+          .subscribe(
+            (action) => console.log('Splurge updated on backend'),
+            (err) => {
+              selectedSplurge.use_dates.pop();
+              this.store.dispatch({ type: 'UPDATE_SPLURGE', payload: selectedSplurge })
+              // TODO: Use common error service to show notification.
+              console.log(err);
+            }
+          );
   }
 }
